@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JavaScript Voice Search</title>
+</head>
+
+
+
+<body>
+  <!-- when the button is clicked on/off it will start the functions -->
+  <button onclick="startRecording()">Start Recording</button>
+  <button onclick="stopRecording()">Stop Recording</button>
+  <div id="result">xx</div>
+  <script>
+
+
+
+
+
+
+
+
+    //recongtion is a variable and use the JS object that uses 
+    // Web Speech API. The '||' is saying to use the Web Speech API on this 
+    // browser 'OR' this browser and so on...
+    var recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition 
+    || window.SpeechRecognition || window.msSpeechRecognition)();
+    recognition.lang = "en-US";
+    // this is saying that we only want the results to be show at the end 
+    recognition.interimResults = false;
+    //   and this is saying we only want the top result that is most similar to what
+    // was picked up with speech
+    recognition.maxAlternatives = 1;
+
+
+
+
+
+
+
+
+    //  below says run the functions by name, then the we call the recognition 
+    //function variable and ask it to start/stop
+    // this is then outputted in the console
+
+
+    
+    function startRecording() {
+      recognition.start();
+      console.log("Recording started");
+    }
+    function stopRecording() {
+      recognition.stop();
+      console.log("Recording stopped");
+    }
+
+    //   these are JS 'event listeners' that are triggered when recording is finished
+    // onresult is called if the speech is recognised and picked up
+    // and onerror is called when an error occurs, it will the show the error on the console
+    recognition.onresult = function (event) {
+      var transcript = event.results[0][0].transcript;
+      console.log("Transcript:", transcript);
+      document.getElementById("result").innerHTML = transcript;
+    }
+
+    recognition.onerror = function (event) {
+      console.error("Error:", event.error);
+    }
+
+
+
+  </script>
+</body>
+
+</html>
